@@ -33,12 +33,10 @@ graph TD
 ```
 
 ### Key Statistical Steps Handled:
-1. **Reversal of UCSC Xena Transformations:** UCSC Xena hosts STAR expression values pre-processed as $\log _ 2(\text{counts} + 1)$. Because DESeq2 uses a **Negative Binomial distribution** to model raw sequencing reads, the log transformation was mathematically reversed:
-   $$ \text{counts} _ {\text{raw}} = 2 ^ {\text{counts} _ {\text{log2}}} - 1 $$
-   The resulting matrix was rounded to clean integers, meeting the exact statistical requirements of the DESeq2 package.
-3. **Alignment Safety:** Intersected sample identifiers between the expression matrix and clinical metadata to ensure perfect matrix alignment across **553 clinical samples**.
-4. **Low-Expression Filtering:** Filtered out genes with $<10$ total read counts across the entire cohort to reduce computing time and increase statistical testing power.
-5. **Outlier Mitigation:** Utilized Cook's distance automatically within PyDESeq2 to flag and refit outliers, preventing false-positive DEGs.
+1. **Reversal of UCSC Xena Transformations:** UCSC Xena hosts STAR expression values pre-processed as $\log _ 2(\text{counts} + 1)$. Because DESeq2 uses a **Negative Binomial distribution** to model raw sequencing reads, the log transformation was mathematically reversed: $\text{counts} _ {\text{raw}} = 2 ^ {\text{counts} _ {\text{log2}}} - 1$. The resulting matrix was rounded to clean integers, meeting the exact statistical requirements of the DESeq2 package.
+2. **Alignment Safety:** Sample lists from clinical metadata and gene counts were intersected to ensure perfect row-column matrix alignment (`553 samples`).
+3. **Outlier Filtering & Independent Filtering:** PyDESeq2 automatically detected and replaced count outliers using Cook's distance to prevent false positives from single high-expression outliers. Independent filtering was performed to maximize Wald test power at an FDR significance level ($\alpha = 0.05$).
+4. **Contrast Normalization:** The cohort design factor `sample_type.samples` was normalized by PyDESeq2 to `sample-type.samples` (handling Patsy/formulaic string conventions). The contrast compared the tested category (`Primary Tumor`) against the baseline reference (`Solid Tissue Normal`).
 
 ---
 
