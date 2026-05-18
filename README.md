@@ -33,10 +33,12 @@ graph TD
 ```
 
 ### Key Statistical Steps Handled:
-1. **Log-Reversal (The Bioinformatic Flex)**: UCSC Xena hosts pre-processed STAR expression counts as $\log_2(\text{counts} + 1)$. Because DESeq2 uses a raw count model based on a Negative Binomial distribution, the log transformation was mathematically reversed to return to true raw integer read counts:$$\text{counts}_{\text{raw}} = 2^{\text{counts}_{\text{log}}} - 1$$
-2. **Alignment Safety:** Intersected sample identifiers between the expression matrix and clinical metadata to ensure perfect matrix alignment across **553 clinical samples**.
-3. **Low-Expression Filtering:** Filtered out genes with $<10$ total read counts across the entire cohort to reduce computing time and increase statistical testing power.
-4. **Outlier Mitigation:** Utilized Cook's distance automatically within PyDESeq2 to flag and refit outliers, preventing false-positive DEGs.
+1. **Reversal of UCSC Xena Transformations:** UCSC Xena hosts STAR expression values pre-processed as $\log _ 2(\text{counts} + 1)$. Because DESeq2 uses a **Negative Binomial distribution** to model raw sequencing reads, the log transformation was mathematically reversed:
+   $$ \text{counts} _ {\text{raw}} = 2 ^ {\text{counts} _ {\text{log2}}} - 1 $$
+   The resulting matrix was rounded to clean integers, meeting the exact statistical requirements of the DESeq2 package.
+3. **Alignment Safety:** Intersected sample identifiers between the expression matrix and clinical metadata to ensure perfect matrix alignment across **553 clinical samples**.
+4. **Low-Expression Filtering:** Filtered out genes with $<10$ total read counts across the entire cohort to reduce computing time and increase statistical testing power.
+5. **Outlier Mitigation:** Utilized Cook's distance automatically within PyDESeq2 to flag and refit outliers, preventing false-positive DEGs.
 
 ---
 
