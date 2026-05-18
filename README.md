@@ -1,9 +1,5 @@
 # 🧬 TCGA-PRAD Differential Gene Expression Pipeline
 
-[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg?style=flat-square)](https://www.python.org/)
-[![PyDESeq2 v0.4.12](https://img.shields.io/badge/PyDESeq2-v0.4.12-brightgreen.svg?style=flat-square)](https://github.com/owkin/PyDESeq2)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
-
 A high-performance, statistically rigorous bioinformatics pipeline for differential gene expression analysis (DGEA) comparing **Primary Tumor** vs. **Solid Tissue Normal** samples from the GDC TCGA Prostate Cancer (PRAD) cohort. The pipeline is implemented in Python using the modern `PyDESeq2` framework (re-implementing R's famous DESeq2 in Python).
 
 ---
@@ -23,8 +19,6 @@ The volcano plot below illustrates the relation between fold change (x-axis) and
 ---
 
 ## 🧪 2. Core Bioinformatics Workflow
-
-Our pipeline implements best-in-class data cleaning and mathematical adjustments required for robust Negative Binomial modeling:
 
 ```mermaid
 graph TD
@@ -69,23 +63,6 @@ The analysis successfully aligned 553 samples and computed Wald test statistics 
 | `ENSG00000101977` | **MCF2** | 99.11 | -5.32 | $3.29 \times 10^{-130}$ | $3.21 \times 10^{-126}$ | Guanine nucleotide exchange factor; regulates cell morphology and migration. |
 | `ENSG00000085662` | **AKR1B1** | 2,760.89 | -3.93 | $4.37 \times 10^{-129}$ | $3.42 \times 10^{-125}$ | Aldo-keto reductase; involved in cellular stress response and glucose pathway. |
 
----
-
-## 🛠️ 4. Setup & Execution
-
-### 1. Requirements
-Ensure you have the following libraries installed:
-```bash
-pip install numpy pandas matplotlib seaborn requests pydeseq2 anndata
-```
-
-### 2. Execution
-Run the analysis script to load Xena counts, fit size factors, compute statistics, and render the premium volcano plot:
-```bash
-python deseq2_analysis.py
-```
-
-### 3. File Outputs
 The script creates a `results/` folder containing:
 * `results/tcga_prad_volcano.png` — Publication-ready high-DPI Volcano Plot.
 * `results/tcga_prad_differentials.csv` — Full differential expression metrics for all analyzed genes.
